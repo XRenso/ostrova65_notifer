@@ -23,7 +23,7 @@ def get_html(url):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         result = requests.get(url)
-    return result.text
+        return result.text
 
 
 def get_topics(html):
@@ -106,7 +106,6 @@ def get_topic_descript_sakh(url):
         desc = a.text
         final_desc = re.sub(trash_symbols, ' ', desc)
         topic_desk.append(final_desc.strip())
-
 # get_news_from_topics(get_urls_from_topic('Политика'))
 # get_topic_descript_sakh(topics_url[1])
 # print(get_next_page(100))
