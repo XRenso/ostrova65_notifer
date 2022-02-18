@@ -78,6 +78,7 @@ def get_news_from_topics(url):
 
 
 def get_topic_descript_sakh(url):
+    topic_desk.clear()
     soup = BeautifulSoup(get_html(url), 'lxml')
     for a in soup.find_all('p', class_='text-style-text'):
         desc = a.text
@@ -96,6 +97,11 @@ def get_topic_descript_sakh(url):
 # get_news_from_topics(get_urls_from_topic('Южно-Сахалинск'))
 # print(f"Headder - {topics_title[0]} \nURL- {topics_url[0]}")
 # print(topics_title)
-
+# get_news_from_topics(get_urls_from_topic('Южно-Сахалинск'))
+# get_topic_descript_sakh(topics_url[1])
+# print(topic_desk)
+# get_news_from_topics(get_urls_from_topic('Анива'))
+# get_topic_descript_sakh(topics_url[1])
+# print(topic_desk)
 # for o in topics_title:
 #   print(topics_title[topics_title.index(o)])
