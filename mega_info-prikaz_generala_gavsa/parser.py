@@ -7,10 +7,10 @@ ua = UserAgent()
 headers = {'accept': '*/*', 'user-agent': ua.firefox}
 news_url = 'https://sakhalin.info/'
 get_news_url='https://sakhalin.info/'
-news_already = []
 rubriks_url=[]
 rubriks_name=[]
-
+city_names = []
+city_urls = []
 def get_html(url):
 	response = requests.get(url, headers=headers)
 	if response.status_code == 200:
@@ -27,18 +27,35 @@ def get_data(html):
     
 def get_topics(html):
     soup = BeautifulSoup(html, 'lxml')
-    for a in soup.find_all('li', class_="dropdown-menu__item dropdown-menu__item_thin"):
-        i = a.find('a').get('href')
-        n = a.find('a').text
-        rubriks_url.append(i)
-        rubriks_name.append(n)
+    for a in soup.find_all('div', class_="dropdown-menu dropdown-menu_disable-on-mobile header__menu-button"):
+        # i = a.find('a').get('href')
+        n = a.find_all('span', class_='header__menu-link')
+        #print(n)
+        for j in n:
+           if j.text.strip() == 'Рубрики':
+              i = a.find_all('ul',class_='dropdown-menu__list')
+              for b in i:
+                  k = b.find_all('li',class_='dropdown-menu__item dropdown-menu__item_thin')
+                  for d in k:
+                    rubriks_url.append(d.get('href'))
+                    rubriks_name.append(d.text)
+           elif j.text.strip() == 'Города':
+              i = a.find_all('ul',class_='dropdown-menu__list')
+              for b in i:
+                  k = b.find_all('li',class_='dropdown-menu__item dropdown-menu__item_thin')
+                  for d in k:
+                    city_urls.append(d.get('href'))
+                    city_names.append(d.text)
+
+
 
 
 get_topics(get_html(news_url))
 
+print(rubriks_name)
+print(city_names)
+# i = input('Что вы хотите парсить? ')
 
-i = input('Что вы хотите парсить? ')
+# index = rubriks_name.index(i)
 
-index = rubriks_name.index(i)
-
-print(rubriks_url[index])
+# print(rubriks_url[index])
