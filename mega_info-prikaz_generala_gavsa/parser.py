@@ -8,9 +8,8 @@ ua = UserAgent()
 headers = {'accept': '*/*', 'user-agent': ua.firefox}
 news_url = 'https://sakhalin.info/'
 news_already = []
-all_rubriks = soup.find_all("li", {"class": "dropdown-menu__item dropdown-menu__item_thin"})
-print(all_rubriks)
-
+rubriks_url=[]
+rubriks_name=[]
 def get_html(url):
 	response = requests.get(url, headers=headers)
 	if response.status_code == 200:
@@ -30,3 +29,12 @@ def get_data(html):
 	soup = BeautifulSoup(html, 'lxml')
 	data = soup.find('span', class_='short-news_date').text
 	return data
+soup = BeautifulSoup(get_html(news_url), 'lxml')
+for a in soup.find_all('li', class_="dropdown-menu__item dropdown-menu__item_thin"):
+    i = a.find('a').get('href')
+    n = a.find('a').text
+    rubriks_url.append(i)
+    rubriks_name.append(n)
+
+print(rubriks_url)
+print(rubriks_name)
