@@ -36,10 +36,10 @@ elif text1 == "Города":
 def open_news(title,url):
     myFont = font.Font(family='Helvetica', size=10)
     news = Toplevel(root)
-    btn = Button(news, text="Открыть ссылку", command=lambda :click(url), width=50)
+    btn = Button(news, text="Перейти к источнику", command=lambda :click(url), width=50)
     btn.pack(side = BOTTOM,fill = X)
     news.title(title)
-    news.geometry("800x500")
+    news.geometry("800x700")
     news.resizable(False, False)
     parser.get_topic_descript_sakh(url)
     desc = parser.topic_desk
@@ -48,7 +48,7 @@ def open_news(title,url):
         label['font'] = myFont
         label.pack()
 
-    source = Label(news,text='\n\n' + url,wraplength=800,width=50)
+    source = Label(news,text='\n\n' +'Источник -' + url,wraplength=800,width=50)
     source.pack()
 #btn = Button(root, text="открыть ссылку", command=click, width = 50)
 vib.pack(padx=0, pady=0)
