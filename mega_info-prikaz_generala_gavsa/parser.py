@@ -4,15 +4,22 @@ from fake_useragent import UserAgent
 import re
 
 ua = UserAgent()
-headers = {'accept': '*/*', 'user-agent': ua.firefox}
+headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'}
 news_url = 'https://sakhalin.info/'
 get_news_url = 'https://sakhalin.info/'
+
+pravitelstvo_url = 'https://sakhalin.gov.ru/'
+
+
 page_number = 1
 
 rubriks_url = []
 rubriks_name = []
 city_names = []
 city_urls = []
+
+pravitelstvo_urls = []
+pravitelstvo_title = []
 
 topics_title = []
 topics_url = []
@@ -106,6 +113,24 @@ def get_topic_descript_sakh(url):
         desc = a.text
         final_desc = re.sub(trash_symbols, ' ', desc)
         topic_desk.append(final_desc.strip())
+
+
+def pravitelstvo_getting(url):
+    soup = BeautifulSoup(get_html(url), 'lxml')
+    print('da')
+    a = soup.find_all('p', class_='bodytext_subheader')
+
+    print(a)
+    print('oho')
+    for b in a:
+        for i in b.find('td', class_='news_text'):
+            print('yehu')
+            print(i.find('a').text)
+
+
+pravitelstvo_getting('https://sakhalin.gov.ru/')
+
+
 # get_news_from_topics(get_urls_from_topic('Политика'))
 # get_topic_descript_sakh(topics_url[1])
 # print(get_next_page(100))
