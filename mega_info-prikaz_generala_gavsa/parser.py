@@ -13,8 +13,13 @@ rubriks_name=[]
 city_names = []
 city_urls = []
 
+
+
+
 topics_title = []
 topics_url = []
+topic_desk = []
+
 def get_html(url):
 	response = requests.get(url, headers=headers)
 	if response.status_code == 200:
@@ -57,18 +62,36 @@ def get_urls_from_topic(i):
 	except:
 		index = city_names.index(i)
 		return city_urls[index]
-	
+
+
+trash_symbols = '[\xa0\n\t\t\t]' 
+
 def get_news_from_topics(url):
   soup = BeautifulSoup(get_html(url), 'lxml')
   for a in soup.find_all('a',class_='story-title-link'):
       title = a.text
-      trash_symbols = '[\xa0\n\t\t\t]' 
+      
       final_title = re.sub(trash_symbols, ' ',title)
       topics_title.append(final_title.strip())
       topics_url.append(a.get('href'))
 
-i = input('Какие новости? ')
 
-get_news_from_topics(get_urls_from_topic(i))
+def get_topic_descript_sakh(url):
+  soup = BeautifulSoup(get_html(url), 'lxml')
+  for a in soup.find_all('p',class_='text-style-text'):
+      desc = a.text
+      final_desc = re.sub(trash_symbols, ' ', desc)
+      topic_desk.append(final_desc.strip())
 
-print(f"Header - {topics_title[0]}  \nURL - {topics_url[0]}")
+
+
+get_news_from_topics(get_urls_from_topic('Политика'))
+get_topic_descript_sakh(topics_url[1])
+
+print(topic_desk)
+#Debug
+# i = input('Какие новости? ')
+
+# get_news_from_topics(get_urls_from_topic(i))
+
+# print(f"Header - {topics_title[0]}  \nURL - {topics_url[0]}")
