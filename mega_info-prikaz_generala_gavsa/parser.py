@@ -67,10 +67,15 @@ def get_urls_from_topic(i):
 trash_symbols = '[\xa0\n\t\t\t]' 
 
 def get_news_from_topics(url):
+  global topics_title, topics_url
   soup = BeautifulSoup(get_html(url), 'lxml')
+  topics_title.clear()
+  topics_url.clear()
   for a in soup.find_all('a',class_='story-title-link'):
-      title = a.text
       
+      title = a.text
+     
+        #print(topics_title)
       final_title = re.sub(trash_symbols, ' ',title)
       topics_title.append(final_title.strip())
       topics_url.append(a.get('href'))
@@ -92,9 +97,10 @@ def get_topic_descript_sakh(url):
 #Debug
 # i = input('Какие новости? ')
 
-# get_news_from_topics(get_urls_from_topic(i))
-# print(f"Headder - {topics_title[0]} \nURL- {topics_url[0]}")
-
+get_news_from_topics(get_urls_from_topic('ЖКХ'))
+print(f"Headder - {topics_title[0]} \nURL- {topics_url[0]}")
+get_news_from_topics(get_urls_from_topic('Бизнес'))
+print(f"Headder - {topics_title[0]} \nURL- {topics_url[0]}")
 #print(topics_title)
 
 # for o in topics_title:
