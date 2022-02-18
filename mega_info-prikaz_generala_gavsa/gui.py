@@ -45,6 +45,7 @@ label1.place(relx = .2 , rely = .2)
 def topik_changed(event):
     text12 = selected_topik.get()
     print(text12)
+    root.title('Borch News - ' + text12)
     parser.get_news_from_topics(parser.get_urls_from_topic(text12))
     print(parser.topics_title[0])   
     label.configure(text = parser.topics_title[0])
