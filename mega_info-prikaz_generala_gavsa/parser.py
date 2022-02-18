@@ -18,12 +18,6 @@ def get_html(url):
 	return result.text
 
 
-
-def get_data(html):
-	soup = BeautifulSoup(html, 'lxml')
-	data = soup.find('span', class_='short-news_date').text
-	return data
-    
     
 def get_topics(html):
     soup = BeautifulSoup(html, 'lxml')
@@ -37,14 +31,14 @@ def get_topics(html):
               for b in i:
                   k = b.find_all('li',class_='dropdown-menu__item dropdown-menu__item_thin')
                   for d in k:
-                    rubriks_url.append(d.get('href'))
+                    rubriks_url.append(d.find('a').get('href'))
                     rubriks_name.append(d.text)
            elif j.text.strip() == 'Города':
               i = a.find_all('ul',class_='dropdown-menu__list')
               for b in i:
                   k = b.find_all('li',class_='dropdown-menu__item dropdown-menu__item_thin')
                   for d in k:
-                    city_urls.append(d.get('href'))
+                    city_urls.append(d.find('a').get('href'))
                     city_names.append(d.text)
 
 
@@ -52,10 +46,11 @@ def get_topics(html):
 
 get_topics(get_html(news_url))
 
-print(rubriks_name)
-print(city_names)
-# i = input('Что вы хотите парсить? ')
-
-# index = rubriks_name.index(i)
-
-# print(rubriks_url[index])
+def get_urls_from_topic(i):
+	try:
+		index = rubriks_name.index(i)
+		return rubriks_url[index]
+	except:
+		index = city_names.index(i)
+		return city_urls[index]
+	
