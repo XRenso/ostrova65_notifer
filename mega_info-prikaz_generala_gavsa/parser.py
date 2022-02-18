@@ -9,7 +9,7 @@ headers = {'accept': '*/*', 'user-agent': ua.firefox}
 news_url = 'https://sakhalin.info/'
 get_news_url = 'https://sakhalin.info/'
 page_number = 1
-page = '/list'
+
 rubriks_url = []
 rubriks_name = []
 city_names = []
@@ -108,9 +108,9 @@ def get_topic_descript_sakh(url):
         final_desc = re.sub(trash_symbols, ' ', desc)
         topic_desk.append(final_desc.strip())
 
-#get_news_from_topics(get_urls_from_topic('Политика'))
+get_news_from_topics(get_urls_from_topic('Политика'))
 # get_topic_descript_sakh(topics_url[1])
-#print(get_next_page(100))
+print(get_next_page(100))
 # print(topic_desk)
 # Debug
 # i = input('Какие новости? ')
