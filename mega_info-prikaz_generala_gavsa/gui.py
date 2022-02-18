@@ -1,9 +1,6 @@
-from lib2to3.pgen2.token import LEFTSHIFT
-from operator import ne
+
 from tkinter import ttk
 from tkinter import *
-from tkinter.messagebox import showinfo
-from turtle import width
 import parser
 import webbrowser
 root = Tk()

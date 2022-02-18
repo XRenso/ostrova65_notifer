@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-from datetime import datetime
 from fake_useragent import UserAgent
 import re
 
