@@ -85,13 +85,17 @@ def get_topic_descript_sakh(url):
 
 
 
-get_news_from_topics(get_urls_from_topic('Политика'))
-get_topic_descript_sakh(topics_url[1])
+# get_news_from_topics(get_urls_from_topic('Политика'))
+# get_topic_descript_sakh(topics_url[1])
 
-print(topic_desk)
+# print(topic_desk)
 #Debug
 # i = input('Какие новости? ')
 
 # get_news_from_topics(get_urls_from_topic(i))
 
-# print(f"Header - {topics_title[0]}  \nURL - {topics_url[0]}")
+
+#print(topics_title)
+
+# for o in topics_title:
+#   print(topics_title[topics_title.index(o)])
