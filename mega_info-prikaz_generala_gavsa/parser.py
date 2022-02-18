@@ -71,10 +71,10 @@ def get_next_page(step):
     page_number += step
     path = get_news_url + '/list' + str(page_number)
     soup = BeautifulSoup(get_html(path), 'lxml')
-    j = soup.find('div', class_='inner').find('h1').text
-    print(j)
+
     if soup.find('div', class_='inner').find('p').text != 'Ничего не найдено':
         path = get_news_url + '/list' + str(page_number)
+        get_news_url = path
         #get_news_url = path
     else:
         page_number = 1
@@ -114,7 +114,12 @@ def get_topic_descript_sakh(url):
 # print(topic_desk)
 # Debug
 # i = input('Какие новости? ')
-
+# get_news_from_topics(get_urls_from_topic(i))
+# print(topics_title[0])
+#
+# get_news_from_topics(get_next_page(10))
+# print(get_news_url)
+# print(topics_title[0])
 # get_news_from_topics(get_urls_from_topic('Бизнес'))
 # print(f"Headder - {topics_title[0]} \nURL- {topics_url[0]}")
 # get_news_from_topics(get_urls_from_topic('Южно-Сахалинск'))
