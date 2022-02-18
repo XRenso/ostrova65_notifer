@@ -1,4 +1,3 @@
-
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
@@ -7,6 +6,7 @@ from fake_useragent import UserAgent
 ua = UserAgent()
 headers = {'accept': '*/*', 'user-agent': ua.firefox}
 news_url = 'https://sakhalin.info/'
+get_news_url='https://sakhalin.info/'
 news_already = []
 rubriks_url=[]
 rubriks_name=[]
@@ -34,6 +34,11 @@ def get_topics(html):
         rubriks_name.append(n)
 
 
-
-
 get_topics(get_html(news_url))
+
+
+i = input('Что вы хотите парсить? ')
+
+index = rubriks_name.index(i)
+
+print(rubriks_url[index])
