@@ -1,4 +1,4 @@
-BeautifulSoap
+beautifulsoup4
 requests
 fake_useragent
 lxml
