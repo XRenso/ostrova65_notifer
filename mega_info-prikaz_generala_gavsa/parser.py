@@ -154,6 +154,7 @@ def pravitelstvo_getting(url):
 
 def create_user_news():
     if os.path.exists('config.txt'):
+        us_pof.read_user_conf()
         for i in us_pof.user_fav_topic:
             get_news_from_user_topics(get_urls_from_topic(i))
         get_news_from_user_topics(get_urls_from_topic(us_pof.user_fav_city[0]))
