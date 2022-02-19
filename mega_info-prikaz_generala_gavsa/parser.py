@@ -1,4 +1,5 @@
 from multiprocessing.sharedctypes import Value
+from types import NoneType
 from bs4 import BeautifulSoup
 import requests
 from fake_useragent import UserAgent
@@ -159,8 +160,9 @@ def create_user_news():
 
 def get_title_from_url(url):
     soup = BeautifulSoup(get_html(url), 'lxml')
-    return soup.find('h1', class_='toolbar-push-header article-header no-bottom-margin').text
-
+    if soup.find('h1', class_='toolbar-push-header article-header no-bottom-margin').text != NoneType:
+        a = soup.find('h1', class_='toolbar-push-header article-header no-bottom-margin').text
+        return a
 #create_user_news()
 
 #random.shuffle(personal_url)
