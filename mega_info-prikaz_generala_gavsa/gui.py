@@ -1,8 +1,9 @@
-
-
+from asyncio import wrap_future
+from ctypes import alignment
 from tkinter import ttk
 from tkinter import *
 import tkinter.font as font
+from turtle import left, window_height
 import parser
 import webbrowser
 import user_profile as us_prof
@@ -18,16 +19,31 @@ def main(extermenatus, sasati, anus_sani):
         us_prof.save_user_interest(anus_sani, *sasati)
 
     root = Tk()
-    root.geometry('600x750')
-    root.resizable(False, False)
+    root.geometry('300x250')
+    root.resizable(False,  False)
     root.title('Borch News')
+    root.focus_set()
     label = Label(root,text="Выберите топик:")
     label.pack()
+    main_frame = Frame(root, width = 370, height= 700)
+    main_frame.place(x=0,y=0)
+    my_canvas = Canvas(main_frame, width = 370, height= 700)
+    my_canvas.place(x=0,y=0)
+    my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+    my_scrollbar.place(x=370,y=0,height=700)
+    my_canvas.configure(yscrollcommand=my_scrollbar.set)
+    my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion= my_canvas.bbox("all")))
+    def _on_mouse_wheel(event):
+        my_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+    my_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
+    second_frame = Frame(my_canvas, width = 370, height = 700)
+    second_frame.place(x=0,y=0)
+    my_canvas.create_window((0,0), window = second_frame, anchor="nw")
     selected_topik = StringVar()
     selected_vib = StringVar()
-    topik = ttk.Combobox(root, textvariable=selected_topik)
-    vib = ttk.Combobox(root, textvariable=selected_vib)
-    thanks = ["Моя подборочка, родненькая"]
+    topik = ttk.Combobox(root, textvariable=selected_topik, state="readonly")
+    vib = ttk.Combobox(root, textvariable=selected_vib, state="readonly")
+    thanks = ["Моя подборка"]
     def click(url):
         webbrowser.open(url, new=2)
     vib['values'] = ["Рубрики", "Города", "Свой Борщ"]
@@ -45,17 +61,20 @@ def main(extermenatus, sasati, anus_sani):
         
 
 
-
+    
 
     def open_news(title,url):
+        
         myFont = font.Font(family='Helvetica', size=10)
         news = Toplevel(root)
+        news.focus_set()
         btn = Button(news, text= "Источник - " + url, command=lambda :click(url), width=50)
         btn.pack(side = BOTTOM,fill = X)
         news.title(title)
         news.geometry("900x700")
         news.resizable(False, False)
         text = Text(news, width = 900, height = 400)
+        
         Scrollbar1 = Scrollbar(news, orient = VERTICAL, command=text.yview)
         Scrollbar1.pack(side=RIGHT, fill=Y)
         parser.get_topic_descript_sakh(url)
@@ -64,12 +83,13 @@ def main(extermenatus, sasati, anus_sani):
             text.insert(1.0, i + ' \n')
             text['font'] = myFont
             text.pack()
+        text.config(state=DISABLED)
 
 
 
 
-    vib.pack(padx=0, pady=0)
-    topik.pack(padx = 0,  pady  = 0)
+    vib.pack(pady=5)
+    topik.pack(pady=5)
 
 
     news_btn_list=[]
@@ -78,9 +98,10 @@ def main(extermenatus, sasati, anus_sani):
             self.font = font.Font(family='Helvetica', size=10)
             self.text = text
             self.url = url
-            self.button = Button(root, text=self.text, wraplength=400, width=50, command=lambda: open_news(self.text, self.url))
+            self.button = Button(second_frame, text=self.text, wraplength=350, width=50, command=lambda: open_news(self.text, self.url), relief = GROOVE)
             self.button.pack(fill=X)
-
+            second_frame.configure(height=0)
+            root.geometry('360x700')
         def get_text(self):
             return self.text
         def get_url(self):
@@ -93,17 +114,17 @@ def main(extermenatus, sasati, anus_sani):
         text12 = selected_topik.get()
         #print(text12)
         root.title('Borch News - ' + text12)
-        if text12 != 'Моя подборочка, родненькая':
+        if text12 != 'Моя подборка':
             parser.get_news_from_topics(parser.get_urls_from_topic(text12))
-        elif text12 == 'Моя подборочка, родненькая':
+        elif text12 == 'Моя подборка':
             parser.create_user_news()
 
-        if text12 != 'Моя подборочка, родненькая':
+        if text12 != 'Моя подборка':
             for i in parser.topics_title:
 
                 l = btn_news(i,parser.topics_url[parser.topics_title.index(i)])
                 news_btn_list.append(l)
-        elif text12 == 'Моя подборочка, родненькая':
+        elif text12 == 'Моя подборка':
             for i in parser.personal_title:
                 l = btn_news(i, parser.personal_url[parser.personal_title.index(i)])
                 news_btn_list.append(l)
@@ -125,6 +146,10 @@ def main(extermenatus, sasati, anus_sani):
     topik.bind('<<ComboboxSelected>>', topik_changed)
     vib.bind('<<ComboboxSelected>>', vib_changed)
     label.pack()
+    main_frame.pack(fill = BOTH, expand=1)
+    my_canvas.pack(side = LEFT, fill = BOTH, expand=1)
+    my_scrollbar.pack(side=RIGHT, fill = Y)
+    
     root.mainloop()
     
 if os.path.exists('config.txt'):
@@ -134,7 +159,10 @@ else:
     start = Tk()
     to_send = []
     start.title("Добро пожаловать!")
-    startlabel = Label(start, text = "Добро пожаловать! Выберите интересуюшую вас категории:").pack()
+    start.geometry('280x650')
+    start.resizable(False,False)
+    start.focus_set()
+    startlabel = Label(start, text = "Выберите интересуюшую вас категории:").pack()
     combobox = ttk.Combobox(start)    
     combobox['values'] = parser.city_names
     combobox.pack()    
@@ -156,17 +184,10 @@ else:
         vars = IntVar()
         chkb = chkbtn(text=i, index=parser.rubriks_name.index(i), varsa= vars)
         checkers.append(chkb)
-    butt = Button(start, text = "продолжить",command = lambda: main(start,to_send,combobox.get()))
-    butt.pack()
+    butt = Button(start, text = "продолжить",relief = SUNKEN,command = lambda: main(start,to_send,combobox.get()))
+    butt.pack(side = BOTTOM, fill = X)
     start.mainloop()
 
-
-
-
-
-
-    
-    
 
 
 
