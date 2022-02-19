@@ -1,4 +1,5 @@
 
+
 from tkinter import ttk
 from tkinter import *
 import tkinter.font as font
@@ -7,12 +8,6 @@ import webbrowser
 import user_profile as us_prof
 import os.path
 import time
-
-
-
-
-
-
 
 
 def main(extermenatus, sasati, anus_sani):
@@ -26,11 +21,8 @@ def main(extermenatus, sasati, anus_sani):
     root.geometry('600x750')
     root.resizable(False, False)
     root.title('Borch News')
-    canvas = Canvas(root, bd=0, highlightthickness=0)
     label = Label(root,text="Выберите топик:")
     label.pack()
-    scrollbar = Scrollbar(canvas, orient=VERTICAL)
-    canvas.configure(yscrollcommand=scrollbar.set)
     selected_topik = StringVar()
     selected_vib = StringVar()
     topik = ttk.Combobox(root, textvariable=selected_topik)
@@ -86,7 +78,7 @@ def main(extermenatus, sasati, anus_sani):
             self.font = font.Font(family='Helvetica', size=10)
             self.text = text
             self.url = url
-            self.button = Button(canvas, text=self.text, wraplength=400, width=50, command=lambda: open_news(self.text, self.url))
+            self.button = Button(root, text=self.text, wraplength=400, width=50, command=lambda: open_news(self.text, self.url))
             self.button.pack(fill=X)
 
         def get_text(self):
@@ -106,11 +98,6 @@ def main(extermenatus, sasati, anus_sani):
         elif text12 == 'Моя подборочка, родненькая':
             parser.create_user_news()
 
-
-       
-    #label.configure(text = parser.topics_title[0])
-    #label1.configure(text = parser.topics_url[0])
-        scrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
         if text12 != 'Моя подборочка, родненькая':
             for i in parser.topics_title:
 
@@ -138,8 +125,6 @@ def main(extermenatus, sasati, anus_sani):
     topik.bind('<<ComboboxSelected>>', topik_changed)
     vib.bind('<<ComboboxSelected>>', vib_changed)
     label.pack()
-    canvas.place()
-    canvas.pack(fill=BOTH)
     root.mainloop()
     
 if os.path.exists('config.txt'):
@@ -175,8 +160,13 @@ else:
     butt.pack()
     start.mainloop()
 
-   # btn.configure(text=parser.topics_title[0] + '\n' + parser.topics_url[0])
 
+
+
+
+
+    
+    
 
 
 
