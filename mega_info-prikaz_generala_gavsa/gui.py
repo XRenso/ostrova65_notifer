@@ -83,16 +83,19 @@ def main(extermenatus, sasati, anus_sani):
             text.pack()
             for a in i:
                 symbols += len(a)
-
-        time_for_read_pribliz = f"\n\n\nПримерное время чтения {round(symbols / speed_reading_minute)} минут"
-
+        skorost = round(symbols/speed_reading_minute)
+        if skorost > 0:
+            time_for_read_pribliz = f"\n\n\nПримерное время чтения {skorost} минут/ы/а"
+        else:
+            time_for_read_pribliz = f"\n\n\nВремя чтения не займет у вас и минуты"
         reading_time = Text(news, width=900, height=400)
         for i in time_for_read_pribliz:
-            reading_time.insert(END,i)
-            reading_time['font'] = font.Font(family='Arial',size=10,slant='italic' )
+            text.insert(END,i)
+            text['font'] = font.Font(family='Arial',size=10,slant='italic' )
 
-        reading_time.pack()
+
         text.config(state=DISABLED)
+        reading_time.config(state=DISABLED,yscrollcommand=Scrollbar1.set)
         news.title(title + f" !!Символов : {str(symbols)}!!")
 
 
