@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from bs4 import BeautifulSoup
 import requests
 from fake_useragent import UserAgent
@@ -28,7 +29,7 @@ topics_title = []
 topics_url = []
 topic_desk = []
 
-personal_title = []
+
 personal_url = []
 
 
@@ -147,10 +148,7 @@ def pravitelstvo_getting(url):
     print(titles)
 
 
-if os.path.exists('config.txt'):
-    pass
-else:
-    us_pof.save_user_interest('Карсаков', 'Бизнес', 'Политика', 'Авто')
+
 
 def create_user_news():
     if os.path.exists('config.txt'):
@@ -163,10 +161,10 @@ def get_title_from_url(url):
     soup = BeautifulSoup(get_html(url), 'lxml')
     return soup.find('h1', class_='toolbar-push-header article-header no-bottom-margin').text
 
-create_user_news()
+#create_user_news()
 
-random.shuffle(personal_url)
-print(personal_url[0] + ' ' + get_title_from_url(personal_url[0]))
+#random.shuffle(personal_url)
+#print(personal_url[0] + ' ' + get_title_from_url(personal_url[0]))
 #get_news_from_topics(get_urls_from_topic('Политика'))
 # get_topic_descript_sakh(topics_url[1])
 # print(get_next_page(100))

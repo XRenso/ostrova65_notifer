@@ -1,4 +1,6 @@
 
+from ast import parse
+from pydoc import visiblename
 from re import A
 from tkinter import ttk
 from tkinter import *
@@ -12,17 +14,18 @@ import webbrowser
 import user_profile as us_prof
 import os.path
 from collections import Counter
-    
+import random 
 
     
 
 def main(extermenatus, sasati, anus_sani):
-    extermenatus.destroy()
-    print(sasati)
-    print([k for k, v in Counter(sasati).items() if v % 2 != 0])
+    if extermenatus != None and sasati != None and anus_sani != None:
+        extermenatus.destroy()
+        print(sasati)
+        print([k for k, v in Counter(sasati).items() if v % 2 != 0])
     
 
-    us_prof.save_user_interest(anus_sani, *sasati)
+        us_prof.save_user_interest(anus_sani, *sasati)
     
     root = Tk()
     root.geometry('600x750')
@@ -37,14 +40,22 @@ def main(extermenatus, sasati, anus_sani):
     selected_vib = StringVar()
     topik = ttk.Combobox(root, textvariable=selected_topik)
     vib = ttk.Combobox(root, textvariable=selected_vib)
+    thanks = ["Моя подборочка, родненькая"]
     def click(url):
         webbrowser.open(url, new=2)
-    vib['values'] = ["Рубрики", "Города"]
+    vib['values'] = ["Рубрики", "Города", "Свой Борщ"]
     text1= selected_vib.get()
     if text1 == "Рубрики":
         topik['values'] = parser.rubriks_name
+        topik.pack()
     elif text1 == "Города":
         topik['values'] = parser.city_names
+        topik.pack()
+    elif text1 == "Свой Борщ":
+        print('da')
+        topik['values'] = thanks
+        topik.pack()
+        
 
 
 
@@ -90,15 +101,25 @@ def main(extermenatus, sasati, anus_sani):
         text12 = selected_topik.get()
         print(text12)
         root.title('Borch News - ' + text12)
-        parser.get_news_from_topics(parser.get_urls_from_topic(text12))
-        print(parser.topics_title[0])
+        if text12 != 'Моя подборочка, родненькая':
+            parser.get_news_from_topics(parser.get_urls_from_topic(text12))
+        elif text12 == 'Моя подборочка, родненькая':
+            parser.create_user_news()
+            random.shuffle(parser.personal_url)
+
+       
     #label.configure(text = parser.topics_title[0])
     #label1.configure(text = parser.topics_url[0])
         scrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
-        for i in parser.topics_title:
+        if text12 != 'Моя подборочка, родненькая':
+            for i in parser.topics_title:
 
-            l = btn_news(i,parser.topics_url[parser.topics_title.index(i)])
-            news_btn_list.append(l)
+                l = btn_news(i,parser.topics_url[parser.topics_title.index(i)])
+                news_btn_list.append(l)
+        elif text12 == 'Моя подборочка, родненькая':
+            for i in range(len(parser.personal_url)):
+                l = btn_news(parser.get_title_from_url(parser.personal_url[i]), parser.personal_url[i])
+                news_btn_list.append(l)
     def clear_news_buttons():
         for i in news_btn_list:
             i.destroy()
@@ -110,6 +131,8 @@ def main(extermenatus, sasati, anus_sani):
             topik['values'] = parser.rubriks_name
         elif text1 == "Города":
             topik['values'] = parser.city_names
+        elif text1 == "Свой Борщ":
+            topik['values'] = thanks
 
     topik.bind('<<ComboboxSelected>>', topik_changed)
     vib.bind('<<ComboboxSelected>>', vib_changed)
@@ -118,8 +141,8 @@ def main(extermenatus, sasati, anus_sani):
     canvas.pack(fill=BOTH)
     root.mainloop()
     
-if os.path.exists('context.txt'):
-   main()
+if os.path.exists('config.txt'):
+   main(None, None, None)
     
 else:
     start = Tk()

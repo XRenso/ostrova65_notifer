@@ -1,4 +1,5 @@
 import re
+import os.path
 user_fav_city = ''
 user_fav_topic = []
 
@@ -28,5 +29,5 @@ def read_user_conf():
                 final = re.sub(trash_symb, ' ',o)
                 user_fav_topic.append(final.strip())
             
-
-read_user_conf()
+if os.path.exists('config.txt'):
+    read_user_conf()
