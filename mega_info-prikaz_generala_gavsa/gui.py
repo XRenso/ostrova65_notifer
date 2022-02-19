@@ -62,6 +62,7 @@ def main(extermenatus, sasati, anus_sani):
 
     def open_news(title,url):
         symbols = 0
+        speed_reading_minute = 1400
         myFont = font.Font(family='Helvetica', size=10)
         news = Toplevel(root)
         news.focus_set()
@@ -82,6 +83,17 @@ def main(extermenatus, sasati, anus_sani):
             text.pack()
             for a in i:
                 symbols += len(a)
+
+        time_for_read_pribliz = f"\n\n\nПримерное время чтения {round(symbols / speed_reading_minute)} минут"
+
+        reading_time = Text(news, width=900, height=400)
+        for i in time_for_read_pribliz:
+            reading_time.insert(END,i)
+            reading_time['font'] = font.Font(family='Arial',size=10,slant='italic' )
+
+        reading_time.pack()
+        text.config(state=DISABLED)
+        news.title(title + f" !!Символов : {str(symbols)}!!")
 
 
 
