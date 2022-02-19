@@ -78,8 +78,9 @@ def main(extermenatus, sasati, anus_sani):
         parser.get_topic_descript_sakh(url)
         desc = parser.topic_desk
         for i in desc:
+            text.tag_add(i, '1.0','1.end' )
+            text.tag_config(i,font=("Helvetica", 10))
             text.insert(1.0, i + ' \n')
-            text['font'] = myFont
             text.pack()
             for a in i:
                 symbols += len(a)
@@ -88,14 +89,15 @@ def main(extermenatus, sasati, anus_sani):
             time_for_read_pribliz = f"\n\n\nПримерное время чтения {skorost} минут/ы/а"
         else:
             time_for_read_pribliz = f"\n\n\nВремя чтения не займет у вас и минуты"
-        reading_time = Text(news, width=900, height=400)
+
         for i in time_for_read_pribliz:
             text.insert(END,i)
-            text['font'] = font.Font(family='Arial',size=10,slant='italic' )
+            text.tag_add(time_for_read_pribliz, 2.0)
+            text.tag_config(i,font=("Arial", 10, 'italic'))
+
 
 
         text.config(state=DISABLED)
-        reading_time.config(state=DISABLED,yscrollcommand=Scrollbar1.set)
         news.title(title + f" !!Символов : {str(symbols)}!!")
 
 
