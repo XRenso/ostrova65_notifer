@@ -6,19 +6,22 @@ import parser
 import webbrowser
 import user_profile as us_prof
 import os.path
+import time
 
 
-    
+
+
+
+
+
 
 def main(extermenatus, sasati, anus_sani):
     if extermenatus != None and sasati != None and anus_sani != None:
         extermenatus.destroy()
         #print(sasati)
         #print([k for k, v in Counter(sasati).items() if v % 2 != 0])
-    
-
         us_prof.save_user_interest(anus_sani, *sasati)
-    
+
     root = Tk()
     root.geometry('600x750')
     root.resizable(False, False)
@@ -51,7 +54,8 @@ def main(extermenatus, sasati, anus_sani):
 
 
 
-    def open_news(title,url): 
+
+    def open_news(title,url):
         myFont = font.Font(family='Helvetica', size=10)
         news = Toplevel(root)
         btn = Button(news, text= "Источник - " + url, command=lambda :click(url), width=50)
@@ -68,11 +72,15 @@ def main(extermenatus, sasati, anus_sani):
             text.insert(1.0, i + ' \n')
             text['font'] = myFont
             text.pack()
+
+
+
+
     vib.pack(padx=0, pady=0)
     topik.pack(padx = 0,  pady  = 0)
 
-    news_btn_list=[]
 
+    news_btn_list=[]
     class btn_news:
         def __init__(self,text,url):
             self.font = font.Font(family='Helvetica', size=10)

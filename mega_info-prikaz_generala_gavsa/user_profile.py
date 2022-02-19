@@ -31,7 +31,12 @@ def get_control_interest(name):
     name = name
     get_json(name)
 
-
+def get_points(points,name):
+    try:
+        key = get_json()
+        key[name] += points
+    except KeyError:
+        pass
 
 back_up = {
     "Политика": 0,

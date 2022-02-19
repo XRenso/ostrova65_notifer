@@ -173,9 +173,13 @@ def control_interest(url):
     trash_symb = '[0123456789]'
     pre_url = re.sub(trash_symb, ' ', url).split()
     fin_url = pre_url[0][:-1]
-    index = rubriks_url.index(fin_url)
-    name = rubriks_name[index]
-    us_pof.get_control_interest(name)
+    try:
+        index = rubriks_url.index(fin_url)
+        name = rubriks_name[index]
+    except ValueError:
+        index = city_urls.index(fin_url)
+        name = city_names[index]
+    return name
 
 
 
