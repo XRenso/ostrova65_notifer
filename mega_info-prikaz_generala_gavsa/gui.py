@@ -1,14 +1,13 @@
-from asyncio import wrap_future
-from ctypes import alignment
+import random
 from tkinter import ttk
 from tkinter import *
 import tkinter.font as font
-from turtle import left, window_height
+
 import parser
 import webbrowser
 import user_profile as us_prof
 import os.path
-import time
+
 
 
 def main(extermenatus, sasati, anus_sani):
@@ -62,7 +61,7 @@ def main(extermenatus, sasati, anus_sani):
     
 
     def open_news(title,url):
-        
+        symbols = 0
         myFont = font.Font(family='Helvetica', size=10)
         news = Toplevel(root)
         news.focus_set()
@@ -81,7 +80,8 @@ def main(extermenatus, sasati, anus_sani):
             text.insert(1.0, i + ' \n')
             text['font'] = myFont
             text.pack()
-        text.config(state=DISABLED)
+            for a in i:
+                symbols += len(a)
 
 
 
@@ -110,23 +110,37 @@ def main(extermenatus, sasati, anus_sani):
     def topik_changed(event):
         clear_news_buttons()
         text12 = selected_topik.get()
-        #print(text12)
+
         root.title('Borch News - ' + text12)
         if text12 != 'Моя подборка':
             parser.get_news_from_topics(parser.get_urls_from_topic(text12))
         elif text12 == 'Моя подборка':
-            parser.create_user_news()
-
+            try:
+                temp = list(zip(parser.personal_url,parser.personal_title))
+                random.shuffle(temp)
+                new_pers_urls, new_pers_titles = list(zip(*temp))
+                parser.personal_url = new_pers_urls
+                parser.personal_title = new_pers_titles
+            except ValueError:
+                pass
         if text12 != 'Моя подборка':
-            for i in parser.topics_title:
+            for i in range(20):
 
-                l = btn_news(i,parser.topics_url[parser.topics_title.index(i)])
+                l = btn_news(parser.topics_title[i],parser.topics_url[i])
                 news_btn_list.append(l)
         elif text12 == 'Моя подборка':
-            for i in parser.personal_title:
-                l = btn_news(i, parser.personal_url[parser.personal_title.index(i)])
-                news_btn_list.append(l)
+            for i in range(20):
+                try:
+                    l = btn_news(parser.personal_title[i], parser.personal_url[i])
+                    news_btn_list.append(l)
+                except IndexError:
+                    parser.create_user_news()
 
+            temp = list(zip(parser.personal_url, parser.personal_title))
+            random.shuffle(temp)
+            new_pers_urls, new_pers_titles = list(zip(*temp))
+            parser.personal_url = new_pers_urls
+            parser.personal_title = new_pers_titles
     def clear_news_buttons():
         for i in news_btn_list:
             i.destroy()
