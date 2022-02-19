@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 from fake_useragent import UserAgent
 import re
+import os.path
+import user_profile as us_pof
+import random
 
 ua = UserAgent()
 headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'}
@@ -24,6 +27,11 @@ pravitelstvo_title = []
 topics_title = []
 topics_url = []
 topic_desk = []
+
+personal_title = []
+personal_url = []
+
+
 
 
 def get_html(url):
@@ -105,6 +113,18 @@ def get_news_from_topics(url):
         topics_title.append(final_title.strip())
         topics_url.append(a.get('href'))
 
+def get_news_from_user_topics(url):
+    global personal_url, personal_title
+    soup = BeautifulSoup(get_html(url), 'lxml')
+    personal_url.clear()
+    #personal_title.clear()
+    for a in soup.find_all('a', class_='story-title-link'):
+        title = a.text
+
+        # print(topics_title)
+        final_title = re.sub(trash_symbols, ' ', title)
+        #personal_title.append(final_title.strip())
+        personal_url.append(a.get('href'))
 
 def get_topic_descript_sakh(url):
     topic_desk.clear()
@@ -117,21 +137,37 @@ def get_topic_descript_sakh(url):
 
 def pravitelstvo_getting(url):
     soup = BeautifulSoup(get_html(url), 'lxml')
-    print('da')
-    a = soup.find_all('p', class_='bodytext_subheader')
 
-    print(a)
-    print('oho')
-    for b in a:
-        for i in b.find('td', class_='news_text'):
-            print('yehu')
-            print(i.find('a').text)
+    quotes = soup.find_all('td', class_='news_text')
 
-
-pravitelstvo_getting('https://sakhalin.gov.ru/')
+    titles = []
+    for item in quotes:
+        title = item.find('a')
+        titles.append(title.text)
+    print(titles)
 
 
-# get_news_from_topics(get_urls_from_topic('Политика'))
+if os.path.exists('config.txt'):
+    pass
+else:
+    us_pof.save_user_interest('Карсаков', 'Бизнес', 'Политика', 'Авто')
+
+def create_user_news():
+    if os.path.exists('config.txt'):
+        for i in us_pof.user_fav_topic:
+            get_news_from_user_topics(get_urls_from_topic(i))
+            get_news_from_user_topics(get_urls_from_topic(us_pof.user_fav_city[0]))
+
+
+def get_title_from_url(url):
+    soup = BeautifulSoup(get_html(url), 'lxml')
+    return soup.find('h1', class_='toolbar-push-header article-header no-bottom-margin').text
+
+create_user_news()
+
+random.shuffle(personal_url)
+print(personal_url[0] + ' ' + get_title_from_url(personal_url[0]))
+#get_news_from_topics(get_urls_from_topic('Политика'))
 # get_topic_descript_sakh(topics_url[1])
 # print(get_next_page(100))
 # print(topic_desk)
