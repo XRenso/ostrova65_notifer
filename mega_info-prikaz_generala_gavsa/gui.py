@@ -14,8 +14,6 @@ import time
 def main(extermenatus, sasati, anus_sani):
     if extermenatus != None and sasati != None and anus_sani != None:
         extermenatus.destroy()
-        #print(sasati)
-        #print([k for k, v in Counter(sasati).items() if v % 2 != 0])
         us_prof.save_user_interest(anus_sani, *sasati)
 
     root = Tk()
@@ -187,11 +185,3 @@ else:
     butt = Button(start, text = "продолжить",relief = SUNKEN,command = lambda: main(start,to_send,combobox.get()))
     butt.pack(side = BOTTOM, fill = X)
     start.mainloop()
-
-
-
-
-
-
-    
-    
