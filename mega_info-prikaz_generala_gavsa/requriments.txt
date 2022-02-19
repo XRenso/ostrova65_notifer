@@ -3,5 +3,3 @@ requests
 fake_useragent
 lxml
 regexp
-aiogram
-asyncio
