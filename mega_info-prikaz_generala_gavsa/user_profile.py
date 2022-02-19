@@ -15,10 +15,12 @@ def save_user_interest(city=None, *topics):
    f.close()
 
 def get_json(what=None):
-    with open("interests.json", 'r', encoding='utf-8') as read_message:
-        ocenk = json.load(read_message)
-        return ocenk
-
+   try:
+        with open("interests.json", 'r', encoding='utf-8') as read_message:
+            ocenk = json.load(read_message)
+            return ocenk
+   except FileNotFoundError:
+       pass
 
 def write_json(file):
     with open("interests.json", 'w', encoding='utf-8') as write_message:
@@ -83,14 +85,7 @@ def read_user_conf():
 
 
 
-key = get_json()
-kol = [k for k, v in key.items() if v == max(key.values())]
 
-for i in range(len(kol)):
-    try:
-        save_user_interest(user_fav_city[0], kol[i])
-    except:
-        break
 if os.path.exists('config.txt'):
     read_user_conf()
 elif os.path.exists('config.txt') == False and os.path.exists('interests.json') == True:
@@ -99,3 +94,12 @@ elif os.path.exists('config.txt') == False and os.path.exists('interests.json') 
         key[k] = 0
 elif os.path.exists('config.txt') == False and os.path.exists('interests.json') == False:
     write_json(back_up)
+
+    key = get_json()
+    kol = [k for k, v in key.items() if v == max(key.values())]
+
+    for i in range(len(kol)):
+        try:
+            save_user_interest(user_fav_city[0], kol[i])
+        except:
+            break
