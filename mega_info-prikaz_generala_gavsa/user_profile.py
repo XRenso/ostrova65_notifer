@@ -2,7 +2,7 @@ import re
 import os.path
 import json
 
-user_fav_city = ''
+user_fav_city = []
 user_fav_topic = []
 
 from pathlib import Path
@@ -62,9 +62,6 @@ back_up = {
 
 
 
-
-
-
 trash_symb = '[\n]'
 def read_user_conf():
     global user_fav_city
@@ -80,11 +77,20 @@ def read_user_conf():
                 final = re.sub(trash_symb, ' ',o)
                 user_fav_topic.append(final.strip())
             for i in user_fav_topic:
-                if key[i] == 0:
+                if key.get(i) == 0:
                     key[i] += 10
             write_json(key)
 
-            
+
+
+key = get_json()
+kol = [k for k, v in key.items() if v == max(key.values())]
+
+for i in range(len(kol)):
+    try:
+        save_user_interest(user_fav_city[0], kol[i])
+    except:
+        break
 if os.path.exists('config.txt'):
     read_user_conf()
 elif os.path.exists('config.txt') == False and os.path.exists('interests.json') == True:
