@@ -105,7 +105,7 @@ def main(extermenatus, sasati, anus_sani):
             parser.get_news_from_topics(parser.get_urls_from_topic(text12))
         elif text12 == 'Моя подборочка, родненькая':
             parser.create_user_news()
-            random.shuffle(parser.personal_url)
+
 
        
     #label.configure(text = parser.topics_title[0])
@@ -117,9 +117,10 @@ def main(extermenatus, sasati, anus_sani):
                 l = btn_news(i,parser.topics_url[parser.topics_title.index(i)])
                 news_btn_list.append(l)
         elif text12 == 'Моя подборочка, родненькая':
-            for i in range(len(parser.personal_url)):
-                l = btn_news(parser.get_title_from_url(parser.personal_url[i]), parser.personal_url[i])
+            for i in parser.personal_title:
+                l = btn_news(i, parser.personal_url[parser.personal_title.index(i)])
                 news_btn_list.append(l)
+
     def clear_news_buttons():
         for i in news_btn_list:
             i.destroy()

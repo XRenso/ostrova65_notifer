@@ -30,17 +30,18 @@ topics_title = []
 topics_url = []
 topic_desk = []
 
-
+personal_title = []
 personal_url = []
 
 
 
 
 def get_html(url):
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        result = requests.get(url)
-        return result.text
+    if url is not None:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            result = requests.get(url)
+            return result.text
 
 
 def get_topics(html):
@@ -119,13 +120,13 @@ def get_news_from_user_topics(url):
     global personal_url, personal_title
     soup = BeautifulSoup(get_html(url), 'lxml')
     personal_url.clear()
-    #personal_title.clear()
+    personal_title.clear()
     for a in soup.find_all('a', class_='story-title-link'):
         title = a.text
 
-        # print(topics_title)
+        print(topics_title)
         final_title = re.sub(trash_symbols, ' ', title)
-        #personal_title.append(final_title.strip())
+        personal_title.append(final_title.strip())
         personal_url.append(a.get('href'))
 
 def get_topic_descript_sakh(url):
@@ -155,14 +156,10 @@ def create_user_news():
     if os.path.exists('config.txt'):
         for i in us_pof.user_fav_topic:
             get_news_from_user_topics(get_urls_from_topic(i))
-            get_news_from_user_topics(get_urls_from_topic(us_pof.user_fav_city[0]))
+        get_news_from_user_topics(get_urls_from_topic(us_pof.user_fav_city[0]))
 
 
-def get_title_from_url(url):
-    soup = BeautifulSoup(get_html(url), 'lxml')
-    if soup.find('h1', class_='toolbar-push-header article-header no-bottom-margin').text != NoneType:
-        a = soup.find('h1', class_='toolbar-push-header article-header no-bottom-margin').text
-        return a
+
 #create_user_news()
 
 #random.shuffle(personal_url)
