@@ -124,7 +124,7 @@ def get_news_from_user_topics(url):
     for a in soup.find_all('a', class_='story-title-link'):
         title = a.text
 
-        print(topics_title)
+        #print(topics_title)
         final_title = re.sub(trash_symbols, ' ', title)
         personal_title.append(final_title.strip())
         personal_url.append(a.get('href'))
@@ -147,7 +147,7 @@ def pravitelstvo_getting(url):
     for item in quotes:
         title = item.find('a')
         titles.append(title.text)
-    print(titles)
+    #print(titles)
 
 
 
@@ -158,6 +158,34 @@ def create_user_news():
         for i in us_pof.user_fav_topic:
             get_news_from_user_topics(get_urls_from_topic(i))
         get_news_from_user_topics(get_urls_from_topic(us_pof.user_fav_city[0]))
+
+
+
+
+
+
+
+
+
+def control_interest(url):
+    trash_symb = '[0123456789]'
+    pre_url = re.sub(trash_symb, ' ', url).split()
+    fin_url = pre_url[0][:-1]
+    index = rubriks_url.index(fin_url)
+    name = rubriks_name[index]
+    us_pof.get_control_interest(name)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

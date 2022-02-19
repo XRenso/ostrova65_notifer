@@ -1,28 +1,20 @@
 
-from ast import parse
-from pydoc import visiblename
-from re import A
 from tkinter import ttk
 from tkinter import *
 import tkinter.font as font
-from tkinter.tix import COLUMN
-from traceback import print_tb
-from turtle import right
-from xml.dom.expatbuilder import parseString
 import parser
 import webbrowser
 import user_profile as us_prof
 import os.path
-from collections import Counter
-import random 
+
 
     
 
 def main(extermenatus, sasati, anus_sani):
     if extermenatus != None and sasati != None and anus_sani != None:
         extermenatus.destroy()
-        print(sasati)
-        print([k for k, v in Counter(sasati).items() if v % 2 != 0])
+        #print(sasati)
+        #print([k for k, v in Counter(sasati).items() if v % 2 != 0])
     
 
         us_prof.save_user_interest(anus_sani, *sasati)
@@ -99,7 +91,7 @@ def main(extermenatus, sasati, anus_sani):
     def topik_changed(event):
         clear_news_buttons()
         text12 = selected_topik.get()
-        print(text12)
+        #print(text12)
         root.title('Borch News - ' + text12)
         if text12 != 'Моя подборочка, родненькая':
             parser.get_news_from_topics(parser.get_urls_from_topic(text12))
